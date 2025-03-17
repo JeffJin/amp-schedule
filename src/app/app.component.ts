@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AmplifyAuthenticatorModule, AuthenticatorService } from '@aws-amplify/ui-angular';
@@ -12,7 +13,7 @@ Amplify.configure(outputs);
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [RouterOutlet, TodosComponent, AmplifyAuthenticatorModule],
+  imports: [ RouterOutlet, TodosComponent, AmplifyAuthenticatorModule, JsonPipe ],
 })
 export class AppComponent {
   title = 'Adworks Scheduling';

@@ -8,13 +8,13 @@ body {
     justify-content: center;
     align-items: center;
   }
-  
+
   main {
     display: flex;
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   button {
     border-radius: 8px;
     border: 1px solid transparent;
@@ -34,7 +34,7 @@ body {
   button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
   }
-  
+
   ul {
     padding-inline-start: 0;
     margin-block-start: 0;
@@ -49,16 +49,16 @@ body {
     border-radius: 8px;
     overflow: auto;
   }
-  
+
   li {
     background-color: white;
     padding: 8px;
   }
-  
+
   li:hover {
     background: #dadbf9;
   }
-  
+
   a {
     font-weight: 800;
     text-decoration: none;
