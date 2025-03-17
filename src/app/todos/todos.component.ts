@@ -7,10 +7,9 @@ const client = generateClient<Schema>();
 
 @Component({
   selector: 'app-todos',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [ CommonModule ],
   templateUrl: './todos.component.html',
-  styleUrl: './todos.component.css',
+  styleUrl: './todos.component.css'
 })
 export class TodosComponent implements OnInit {
   todos: any[] = [];
@@ -44,6 +43,6 @@ export class TodosComponent implements OnInit {
 
 
   deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
+    client.models.Todo.delete({ id });
   }
 }
