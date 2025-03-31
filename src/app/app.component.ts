@@ -3,9 +3,10 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AmplifyAuthenticatorModule, AuthenticatorService } from '@aws-amplify/ui-angular';
 import { Amplify } from 'aws-amplify';
-import outputs from '../../amplify_outputs.json';
+import { Hub } from 'aws-amplify/utils';
+import { CONNECTION_STATE_CHANGE, ConnectionState } from 'aws-amplify/data';
 
-Amplify.configure(outputs);
+import outputs from '../../amplify_outputs.json';
 
 @Component({
   selector: 'app-root',
@@ -18,5 +19,15 @@ export class AppComponent {
 
   constructor(public authenticator: AuthenticatorService) {
     Amplify.configure(outputs);
+  }
+
+  ngOnInit(): void {
+    Hub.listen('api', (data: any) => {
+      const { payload } = data;
+      if (payload.event === CONNECTION_STATE_CHANGE) {
+        const connectionState = payload.data.connectionState as ConnectionState;
+        console.log('connectionState', connectionState);
+      }
+    });
   }
 }

@@ -4,9 +4,8 @@
     let-user="user"
     let-signOut="signOut"
   >
-    <h1>Hello {{user?.signInDetails?.loginId}}'s todos</h1>
-    <pre>{{ user | json }}</pre>
     <router-outlet />
     <button (click)="signOut()">Sign Out</button>
   </ng-template>
 </amplify-authenticator>
+

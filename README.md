@@ -23,3 +23,10 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
+
+## Social Login
+npx ampx sandbox secret set GOOGLE_CLIENT_ID
+npx ampx sandbox secret set GOOGLE_CLIENT_SECRET
+
+npx ampx sandbox secret set FACEBOOK_CLIENT_ID
+npx ampx sandbox secret set FACEBOOK_CLIENT_SECRET

@@ -7,13 +7,121 @@ specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
-    .model({
-      content: a.string(),
-      isDone: a.boolean(),
-    })
-    .authorization(allow => [allow.owner()]),
-});
+  PrivacySetting: a.enum([
+    'PRIVATE',
+    'FRIENDS_ONLY',
+    'PUBLIC'
+  ]),
+  VideoSetting: a.enum([
+    'COMMERCIAL',
+    'MOVIE',
+  ]),
+
+  Todo: a.model({
+    content: a.string(),
+    isDone: a.boolean(),
+  }),
+
+  Tag: a.model({
+    name: a.string(),
+    videos: a.hasMany('VideoTag', 'tagId'),
+  }),
+
+  VideoTag: a.model({
+    videoId: a.id().required(),
+    tagId: a.id().required(),
+    video: a.belongsTo('Video', 'videoId'),
+    tag: a.belongsTo('Tag', 'tagId'),
+  }),
+
+  Video: a.model({
+    title: a.string().required(),
+    description: a.string(),
+    tags: a.hasMany('VideoTag', 'videoId'),
+    youtubeUrl: a.url(),
+    url: a.url().required(),
+    duration: a.integer(),
+    fileSize: a.integer(),
+    fileType: a.string(),
+    thumbnailUrls: a.url().array(),
+    playlistId: a.id(),
+    playlist: a.belongsTo('Playlist', 'playlistId'),
+    privacySetting: a.ref('PrivacySetting'),
+    videoSetting: a.ref('VideoSetting'),
+    commercialId: a.id(),
+    commercial: a.belongsTo('Commercial', 'commercialId'),
+  }).secondaryIndexes((index) => [index('title'), index('duration')]),
+
+  Image: a.model({
+    title: a.string().required(),
+    description: a.string(),
+    url: a.url().required(),
+    fileSize: a.integer(),
+    width: a.integer(),
+    height: a.integer(),
+    fileType: a.string(),
+    privacySetting: a.ref('PrivacySetting'),
+  }),
+
+  Audio: a.model({
+    title: a.string().required(),
+    description: a.string(),
+    url: a.url().required(),
+    fileSize: a.integer(),
+    fileType: a.string(),
+    privacySetting: a.ref('PrivacySetting'),
+  }),
+
+  Commercial: a.model({
+    title: a.string(),
+    description: a.string(),
+    startTime: a.datetime(),
+    endTime: a.datetime(),
+    video: a.hasOne('Video', 'commercialId'),
+    playlists: a.hasMany('PlaylistCommercial', 'commercialId'),
+  }),
+
+  PlaylistCommercial: a.model({
+    playlistId: a.id().required(),
+    commercialId: a.id().required(),
+    playlist: a.belongsTo('Playlist', 'playlistId'),
+    commercial: a.belongsTo('Commercial', 'commercialId'),
+  }),
+
+  Playlist: a.model({
+    title: a.string().required(),
+    description: a.string(),
+    videos: a.hasMany('Video', 'playlistId'),
+    startTime: a.datetime(),
+    endTime: a.datetime(),
+    privacySetting: a.ref('PrivacySetting'),
+    devices: a.hasMany('PlaylistDevice', 'playlistId'),
+    commercials: a.hasMany('PlaylistCommercial', 'playlistId'),
+  }),
+
+  PlaylistDevice: a.model({
+    playlistId: a.id().required(),
+    deviceId: a.id().required(),
+    playlist: a.belongsTo('Playlist', 'playlistId'),
+    device: a.belongsTo('Device', 'deviceId'),
+  }),
+
+  Device: a.model({
+    serialNumber: a.string().required(),
+    title: a.string().required(),
+    description: a.string(),
+    deviceGroup: a.string(),
+    organization: a.string(),
+    assetTag: a.string(),
+    deviceVersion: a.string(),
+    appVersion: a.string(),
+    locationId: a.string(),
+    activatedOn: a.datetime(),
+    isOnline: a.boolean(),
+    playlists: a.hasMany('PlaylistDevice', 'deviceId'),
+  }),
+
+}).authorization(allow => [allow.owner()]);
 
 export type Schema = ClientSchema<typeof schema>;
 
