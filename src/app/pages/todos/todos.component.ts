@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '../../../amplify/data/resource';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-
-const client = generateClient<Schema>();
+import { AwsService } from '../../data/services/aws.service';
+import { V6Client } from '@aws-amplify/api-graphql';
+import type { Schema } from '../../../../amplify/data/resource';
+import { DefaultCommonClientOptions } from '@aws-amplify/api-graphql/internals';
 
 @Component({
   selector: 'app-todos',
@@ -19,6 +19,10 @@ export class TodosComponent implements OnInit, OnDestroy {
   createSub?: Subscription | null;
   updateSub?: Subscription | null;
   deleteSub?: Subscription | null;
+  private client: V6Client<Schema, DefaultCommonClientOptions>;
+  constructor(private awsService: AwsService) {
+    this.client = this.awsService.awsClient;
+  }
 
   ngOnInit(): void {
     this.listSub = this.listTodos();
@@ -27,7 +31,7 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   listTodos(): Subscription | null {
     try {
-      return client.models.Todo.observeQuery().subscribe({
+      return this.client.models.Todo.observeQuery().subscribe({
         next: ({ items, isSynced }) => {
           this.todos = items;
         },
@@ -39,17 +43,17 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   setupListeners(): void {
-    this.createSub = client.models.Todo.onCreate().subscribe({
+    this.createSub = this.client.models.Todo.onCreate().subscribe({
       next: (data) => console.log('onCreate', data),
       error: (error) => console.warn(error),
     });
 
-    this.updateSub = client.models.Todo.onUpdate().subscribe({
+    this.updateSub = this.client.models.Todo.onUpdate().subscribe({
       next: (data) => console.log('onUpdate', data),
       error: (error) => console.warn(error),
     });
 
-    this.deleteSub = client.models.Todo.onDelete().subscribe({
+    this.deleteSub = this.client.models.Todo.onDelete().subscribe({
       next: (data) => console.log('onDelete', data),
       error: (error) => console.warn(error),
     });
@@ -58,8 +62,9 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   createTodo() {
     try {
-      client.models.Todo.create({
+      this.client.models.Todo.create({
         content: window.prompt('Todo content'),
+        isDone: false,
       });
     } catch (error) {
       console.error('error creating todos', error);
@@ -67,7 +72,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   deleteTodo(id: string) {
-    client.models.Todo.delete({ id });
+    this.client.models.Todo.delete({ id });
   }
 
   ngOnDestroy(): void {
@@ -84,7 +89,7 @@ export class TodosComponent implements OnInit, OnDestroy {
     };
 
     try {
-      const { data: updatedTodo, errors } = await client.models.Todo.update(updated);
+      const { data: updatedTodo, errors } = await this.client.models.Todo.update(updated);
       if(errors) {
         console.error('todo failed to update', errors)
       } else {

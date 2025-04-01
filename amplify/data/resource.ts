@@ -25,7 +25,7 @@ const schema = a.schema({
   Tag: a.model({
     name: a.string(),
     videos: a.hasMany('VideoTag', 'tagId'),
-  }),
+  }).secondaryIndexes((index) => [index('name')]),
 
   VideoTag: a.model({
     videoId: a.id().required(),

@@ -188,6 +188,16 @@
               "properties": {}
             },
             {
+              "type": "key",
+              "properties": {
+                "name": "tagsByName",
+                "queryField": "listTagByName",
+                "fields": [
+                  "name"
+                ]
+              }
+            },
+            {
               "type": "auth",
               "properties": {
                 "rules": [
