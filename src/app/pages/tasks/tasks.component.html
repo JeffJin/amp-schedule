@@ -1,0 +1,47 @@
+<main>
+  <h1>My tasks</h1>
+  <form [formGroup]="createTaskForm!" (ngSubmit)="createTask()" novalidate>
+    <div>
+      <label for="newTitle">Title</label>
+      <input type="text" id="newTitle" formControlName="newTitle"/>
+    </div>
+    <div>
+      <label for="newDesc">Description</label>
+      <input type="text" id="newDesc" formControlName="newDesc"/>
+    </div>
+    <div>
+      <label for="newNotes">Notes</label>
+      <input type="text" id="newNotes" formControlName="newNotes"/>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Choose a date</mat-label>
+        <input matInput formControlName="newDueDate" [matDatepicker]="picker">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <button type="submit">Create new task</button>
+  </form>
+
+  <ul>
+    <li *ngFor="let task of tasks;">
+      <div>
+        <p>Title: {{ task.title }}</p>
+        <p>Description: {{ task.description }}</p>
+        <p>Notes: {{ task.notes }}</p>
+        <mat-form-field >
+          <mat-label>Task status</mat-label>
+          <mat-select [value]="task.status" (selectionChange)="onStatusChange($event)">
+            @for (status of availableStatus; track status) {
+              <mat-option [value]="status">{{status}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <p>The current status of this task is {{ task.status }}</p>
+        <button (click)="deleteTask(task.id)">Delete</button>
+      </div>
+    </li>
+  </ul>
+</main>

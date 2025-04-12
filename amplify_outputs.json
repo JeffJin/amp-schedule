@@ -56,8 +56,8 @@
     "model_introspection": {
       "version": 1,
       "models": {
-        "Todo": {
-          "name": "Todo",
+        "Task": {
+          "name": "Task",
           "fields": {
             "id": {
               "name": "id",
@@ -66,17 +66,40 @@
               "isRequired": true,
               "attributes": []
             },
-            "content": {
-              "name": "content",
+            "title": {
+              "name": "title",
               "isArray": false,
               "type": "String",
               "isRequired": false,
               "attributes": []
             },
-            "isDone": {
-              "name": "isDone",
+            "description": {
+              "name": "description",
               "isArray": false,
-              "type": "Boolean",
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "status": {
+              "name": "status",
+              "isArray": false,
+              "type": {
+                "enum": "TaskStatus"
+              },
+              "isRequired": false,
+              "attributes": []
+            },
+            "dueDate": {
+              "name": "dueDate",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": []
+            },
+            "notes": {
+              "name": "notes",
+              "isArray": false,
+              "type": "String",
               "isRequired": false,
               "attributes": []
             },
@@ -98,7 +121,7 @@
             }
           },
           "syncable": true,
-          "pluralName": "Todos",
+          "pluralName": "Tasks",
           "attributes": [
             {
               "type": "model",
@@ -684,6 +707,13 @@
               "isRequired": false,
               "attributes": []
             },
+            "duration": {
+              "name": "duration",
+              "isArray": false,
+              "type": "Int",
+              "isRequired": false,
+              "attributes": []
+            },
             "url": {
               "name": "url",
               "isArray": false,
@@ -772,20 +802,6 @@
               "isArray": false,
               "type": "ID",
               "isRequired": true,
-              "attributes": []
-            },
-            "title": {
-              "name": "title",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "description": {
-              "name": "description",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
               "attributes": []
             },
             "startTime": {
@@ -1405,6 +1421,15 @@
           "values": [
             "COMMERCIAL",
             "MOVIE"
+          ]
+        },
+        "TaskStatus": {
+          "name": "TaskStatus",
+          "values": [
+            "COMPLETED",
+            "TODO",
+            "IN_PROGRESS",
+            "BLOCKED"
           ]
         }
       },

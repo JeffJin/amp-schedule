@@ -16,10 +16,19 @@ const schema = a.schema({
     'COMMERCIAL',
     'MOVIE',
   ]),
+  TaskStatus: a.enum([
+    'COMPLETED',
+    'TODO',
+    'IN_PROGRESS',
+    'BLOCKED',
+  ]),
 
-  Todo: a.model({
-    content: a.string(),
-    isDone: a.boolean(),
+  Task: a.model({
+    title: a.string(),
+    description: a.string(),
+    status: a.ref('TaskStatus'),
+    dueDate: a.datetime(),
+    notes: a.string(),
   }),
 
   Tag: a.model({
@@ -66,6 +75,7 @@ const schema = a.schema({
   Audio: a.model({
     title: a.string().required(),
     description: a.string(),
+    duration: a.integer(),
     url: a.url().required(),
     fileSize: a.integer(),
     fileType: a.string(),
@@ -73,8 +83,6 @@ const schema = a.schema({
   }),
 
   Commercial: a.model({
-    title: a.string(),
-    description: a.string(),
     startTime: a.datetime(),
     endTime: a.datetime(),
     video: a.hasOne('Video', 'commercialId'),
@@ -157,6 +165,6 @@ Fetch records from the database and use them in your frontend component.
 
 /* For example, in a React component, you can use this snippet in your
   function's RETURN statement */
-// const { data: todos } = await client.models.Todo.list()
+// const { data: tasks } = await client.models.Todo.list()
 
-// return <ul>{todos.map(todo => <li key={todo.id}>{todo.content}</li>)}</ul>
+// return <ul>{tasks.map(todo => <li key={todo.id}>{todo.content}</li>)}</ul>
