@@ -139,13 +139,9 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   async updateTask(task: any) {
-    const updated = {
-      id: task.id,
-      ...task,
-    };
-
     try {
-      const { data: updatedTask, errors } = await this.client.models.Task.update(updated);
+      const response = await this.client.models.Task.update(task);
+      const { data: updatedTask, errors } = response;
       if (errors) {
         console.error('task failed to update', errors);
       } else {
@@ -156,13 +152,15 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
 
-  async updateStatus($event: any, task: any) {
-    console.log($event);
-    task.status = $event.target.value;
-    await this.updateTask(task);
-  }
-
-  onStatusChange($event: MatSelectChange<any>) {
-
+  async onStatusChange(task: any, $event: MatSelectChange<any>) {
+    const updated = {
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      dueDate: task.dueDate,
+      notes: task.notes,
+      status: $event.value,
+    }
+    await this.updateTask(updated)
   }
 }

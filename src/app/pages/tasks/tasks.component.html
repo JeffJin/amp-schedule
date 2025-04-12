@@ -33,7 +33,7 @@
         <p>Notes: {{ task.notes }}</p>
         <mat-form-field >
           <mat-label>Task status</mat-label>
-          <mat-select [value]="task.status" (selectionChange)="onStatusChange($event)">
+          <mat-select [value]="task.status" (selectionChange)="onStatusChange(task, $event)">
             @for (status of availableStatus; track status) {
               <mat-option [value]="status">{{status}}</mat-option>
             }
