@@ -1,13 +1,16 @@
-<amplify-authenticator>
-  <ng-template
-    amplifySlot="authenticated"
-    let-user="user"
-    let-signOut="signOut"
-  >
-    <h1>Welcome {{ user.username }}!</h1>
-    <router-outlet />
-    <button (click)="signOut()">Sign Out</button>
-  </ng-template>
-</amplify-authenticator>
+@if(showHeaderFooter()) {
+  <app-header></app-header>
+}
+@if(guardedRoute) {
+  <amplify-authenticator>
+    <ng-template amplifySlot="authenticated">
+      <router-outlet (activate)="verifyHeader($event)" />
+    </ng-template>
+  </amplify-authenticator>
+} @else {
+  <router-outlet (activate)="verifyHeader($event)" />
+}
 
-
+@if(showHeaderFooter()) {
+  <app-footer></app-footer>
+}

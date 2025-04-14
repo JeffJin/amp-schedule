@@ -36,7 +36,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './tasks.component.html',
-  styleUrl: './tasks.component.css'
+  styleUrl: './tasks.component.scss'
 })
 export class TasksComponent implements OnInit, OnDestroy {
   protected createTaskForm: FormGroup;
@@ -161,6 +161,6 @@ export class TasksComponent implements OnInit, OnDestroy {
       notes: task.notes,
       status: $event.value,
     }
-    await this.updateTask(updated)
+    await this.updateTask(updated);
   }
 }

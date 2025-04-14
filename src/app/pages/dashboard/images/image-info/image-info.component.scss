@@ -1,0 +1,13 @@
+.img-info {
+  display: flex;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 25px;
+  margin: 25px;
+  justify-content: center;
+  label {
+    text-align: center;
+    flex: 0 0 auto;
+  }
+
+}

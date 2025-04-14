@@ -1,0 +1,4 @@
+@if(video()) {
+  <app-video (updateStatus)="updateVideoStatus($event)" [video]="video()!"></app-video>
+  <pre>{{video()! | json}}</pre>
+}

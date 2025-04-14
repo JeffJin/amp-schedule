@@ -5,3 +5,36 @@
     <input type="text" [value]="deleteTagId" />
     <button (click)="deleteTag(deleteTagId)">Delete Tag</button>
 </div>
+
+<div class="file-upload-form">
+  <input type="file" class="file-input"
+         (change)="onFileSelected($event)" multiple #fileUpload>
+
+  <div class="file-upload">
+    {{fileName || "No file uploaded yet."}}
+    <button mat-mini-fab color="primary" class="upload-btn"
+            (click)="openFileDialog()">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+  </div>
+
+  <div class="images">
+    @for (asset of assets; track asset.path) {
+      <div>
+        @if(asset.path.endsWith('mp4')) {
+          <video class="h-full w-full rounded-lg" controls>
+            <source
+              src="{{asset.href}}"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+          <button (click)="deleteAsset(asset.path)">Delete Video</button>
+        } @else {
+          <img alt="" [src]="asset.href" width="600" height="400"/>
+          <button (click)="deleteAsset(asset.path)">Delete Image</button>
+        }
+      </div>
+    }
+  </div>
+</div>

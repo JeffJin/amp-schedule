@@ -1,0 +1,15 @@
+@if(image()) {
+  <a class="img-info" routerLink="/dashboard/image/{{image()!.id}}">
+    <label>
+      Title:
+      <input value="{{image()!.title}}">
+    </label>
+    <label>
+      Description:
+      <input value="{{image()!.description}}">
+    </label>
+    <label>
+      Dimensions: {{image()!.width}} x {{image()!.height}}
+    </label>
+  </a>
+}

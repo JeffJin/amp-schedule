@@ -1,0 +1,8 @@
+<div>
+  <button (click)="loadComponents()">Load Components</button>
+
+  <ng-container *ngFor="let schema of schemas">
+    <ng-container *ngComponentOutlet="(schema['component'] | async); inputs: schema.inputs"></ng-container>
+  </ng-container>
+  <!--  <ng-container *ngComponentOutlet="loadDataGrid()"></ng-container>-->
+</div>

@@ -1445,8 +1445,30 @@
         "bucket_name": "amplify-amplifyangulartem-adworksawsfilesbucketa54-u4zqejximvgb",
         "aws_region": "us-east-2",
         "paths": {
-          "images/*": {
+          "media/*": {
+            "guest": [
+              "get",
+              "list"
+            ],
             "authenticated": [
+              "get",
+              "list",
+              "write",
+              "delete"
+            ]
+          },
+          "images/*": {
+            "guest": [
+              "get",
+              "list"
+            ],
+            "authenticated": [
+              "get",
+              "list"
+            ]
+          },
+          "images/${cognito-identity.amazonaws.com:sub}/*": {
+            "entityidentity": [
               "get",
               "list",
               "write",
@@ -1454,7 +1476,17 @@
             ]
           },
           "videos/*": {
+            "guest": [
+              "get",
+              "list"
+            ],
             "authenticated": [
+              "get",
+              "list"
+            ]
+          },
+          "videos/${cognito-identity.amazonaws.com:sub}/*": {
+            "entityidentity": [
               "get",
               "list",
               "write",
@@ -1462,7 +1494,17 @@
             ]
           },
           "audios/*": {
+            "guest": [
+              "get",
+              "list"
+            ],
             "authenticated": [
+              "get",
+              "list"
+            ]
+          },
+          "audios/${cognito-identity.amazonaws.com:sub}/*": {
+            "entityidentity": [
               "get",
               "list",
               "write",

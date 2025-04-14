@@ -1,0 +1,7 @@
+@use "tailwindcss";
+
+amplify-authenticator {
+  div[data-amplify-router] {
+    margin-top: 25%;
+  }
+}
