@@ -13,5 +13,6 @@ export const AuthApiActions = createActionGroup({
     // defining an event without payload using the `emptyProps` function
     'Set Token': props<{ token: string }>(),
     'Logout Success': emptyProps(),
+    'Logout Failure': props<{ error: any }>(),
   },
 });

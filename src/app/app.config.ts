@@ -6,7 +6,7 @@ import {
   isDevMode
 } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { routerReducer } from '@ngrx/router-store';
 import { provideState, provideStore } from '@ngrx/store';
@@ -51,7 +51,7 @@ export const appConfig: ApplicationConfig = {
       ]),
     ),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withComponentInputBinding()),
+    provideRouter(routes, withComponentInputBinding(), withViewTransitions()),
     provideStore({
       router: routerReducer,
     }),

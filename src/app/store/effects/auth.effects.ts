@@ -16,9 +16,10 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthApiActions.login),
       exhaustMap(action =>
-        this.authService.login(action.email, action.password).pipe(
+        this.authService.loginObs(action.email, action.password).pipe(
           map(user => {
-            return AuthApiActions.loginSuccess({ user });
+            //TODO
+            return AuthApiActions.loginSuccess({ user: { userName: action.email, email: action.email, token: '', phoneNumber: '' } });
           }),
           catchError((error) => {
             console.error(error);
@@ -35,7 +36,7 @@ export class AuthEffects {
       exhaustMap(action =>
         this.authService.logout().pipe(
           map((result) => {
-            return AuthApiActions.logoutSuccess();
+            return result ? AuthApiActions.logoutSuccess() : AuthApiActions.logoutFailure({ error: null });
           }),
           catchError((error) => {
             console.error(error);

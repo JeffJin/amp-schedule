@@ -5,6 +5,8 @@ import { filter, Subscription, tap } from 'rxjs';
 // import { AuthApiActions } from '../../store/actions/auth.actions';
 // import { selectIsLoggedIn } from '../../store/app.selectors';
 import { AuthenticatorService } from '@aws-amplify/ui-angular';
+import { Store } from '@ngrx/store';
+import { AuthApiActions } from '../../store/actions/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private navigationEnd$;
   private unsubscribeNavigationEnd: Subscription | null = null;
 
-  constructor(private authenticator: AuthenticatorService, private router: Router) {
+  constructor(private authenticator: AuthenticatorService, private router: Router, private store: Store) {
     this.navigationEnd$ = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       tap(() => (this.isOpen.set(false)))
@@ -40,7 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    // this.store.dispatch(AuthApiActions.logout());
     this.authenticator.signOut();
+    this.store.dispatch(AuthApiActions.logoutSuccess());
   }
 }

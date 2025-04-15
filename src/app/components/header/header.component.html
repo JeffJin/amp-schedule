@@ -2,7 +2,7 @@
   <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
     <a href="#" class="-m-1.5 p-1.5">
       <span class="sr-only">eworks</span>
-      <img class="h-8 w-auto" src="/assets/eWorks_logos_solid_symbol.png" alt="">
+      <img class="h-8 w-auto" src="/assets/eWorks_logos_solid_secondary_dark_font.png" alt="">
     </a>
     <div class="flex lg:hidden">
       <button type="button" (click)="isOpen.set(true)" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
@@ -17,7 +17,6 @@
       <a routerLink="blog" class="text-sm/6 font-semibold text-gray-900">Blog</a>
       <a routerLink="latest" class="text-sm/6 font-semibold text-gray-900">Latest</a>
       <a routerLink="about" class="text-sm/6 font-semibold text-gray-900">Company</a>
-      <a routerLink="register" class="text-sm/6 font-semibold text-gray-900">Register</a>
       @if(isLoggedIn()) {
         <a href="javascript:void(0)" (click)="logout()" class="text-sm/6 font-semibold text-gray-900">Log Out <span aria-hidden="true">&rarr;</span></a>
       } @else {
@@ -34,8 +33,7 @@
         <div class="flex items-center justify-between">
           <a href="#" class="-m-1.5 p-1.5">
             <span class="sr-only">eworks</span>
-            <img class="h-8 w-auto" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                 alt="">
+            <img class="h-8 w-auto" src="/assets/eWorks_logos_solid_symbol.png" alt="">
           </a>
           <button type="button" (click)="isOpen.set(false)" class="-m-2.5 rounded-md p-2.5 text-gray-700">
             <span class="sr-only">Close menu</span>

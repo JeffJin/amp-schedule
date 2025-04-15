@@ -1,4 +1,4 @@
-<amplify-authenticator>
+<amplify-authenticator [services]="services">
   <ng-template
     amplifySlot="authenticated"
     let-user="user"
@@ -8,3 +8,4 @@
     <button (click)="signOut()">Sign Out</button>
   </ng-template>
 </amplify-authenticator>
+

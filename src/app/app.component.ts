@@ -17,6 +17,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { Store } from '@ngrx/store';
 import { filter, Subscription } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { signIn, SignInInput } from 'aws-amplify/auth';
+import { AuthApiActions } from './store/actions/auth.actions';
+import { AuthService } from './data/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -30,15 +33,23 @@ import { map, mergeMap } from 'rxjs/operators';
   ]
 })
 export class AppComponent implements OnInit, OnDestroy {
+  services: any;
   showHeaderFooter = signal<boolean>(false);
   guardedRoute = false;
   private routeSubscription: Subscription | null = null;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
+              private authService: AuthService,
               private store: Store,
               private title: Title,
               private meta: Meta){
+    this.services = {
+      async handleSignIn(input: SignInInput) {
+        let { username, password } = input;
+        return authService.login(username, password!);
+      },
+    }
   }
 
   async ngOnInit(): Promise<void> {

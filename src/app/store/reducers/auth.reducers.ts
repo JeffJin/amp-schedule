@@ -17,5 +17,9 @@ export const authReducer = createReducer(
   on(AuthApiActions.logoutSuccess, (state, { }) =>
     ({ ...state, user: null, error: '' })
   ),
+  // TODO login failure error
+  on(AuthApiActions.logoutFailure, (state, { }) =>
+    ({ ...state, user: null, error: '' })
+  ),
 );
 

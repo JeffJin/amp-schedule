@@ -1,5 +1,5 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { from, Observable, tap } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -8,6 +8,10 @@ import { IUser } from '../models/dtos';
 import { StorageService } from './storage.service';
 import { Router } from '@angular/router';
 import { mockData } from './mock-data';
+import { AuthenticatorService } from '@aws-amplify/ui-angular';
+import { getCurrentUser, signIn, SignInInput, SignInOutput } from 'aws-amplify/auth';
+import { AuthApiActions } from '../../store/actions/auth.actions';
+import { Store } from '@ngrx/store';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +20,7 @@ import { mockData } from './mock-data';
 export class AuthService {
   constructor(private http: HttpClient,
               @Inject(AUTH_STORAGE_KEY) private authStorageKey: string,
+              private store: Store,
               private cacheService: StorageService) {
   }
 
@@ -28,13 +33,20 @@ export class AuthService {
     }));
   }
 
-  login(email: string, password: string): Observable<IUser> {
-    const dto = { email, password };
-    return this.http.post<IUser>(
-      `${environment.apiBaseUrl}/account/login`,
-      dto,
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
-    );
+  login(username: string, password: string): Promise<SignInOutput> {
+    console.log('handleSignIn', username, password);
+    return new Promise((resolve, reject) => {
+      signIn({
+        username,
+        password,
+      }).then(result => {
+        this.store.dispatch(AuthApiActions.loginSuccess({ user: { userName: username, email: username, token: '', phoneNumber: '' }}));
+        resolve(result);
+      }).catch((error) => {
+        this.store.dispatch(AuthApiActions.logoutFailure({ error }));
+        reject(error);
+      })
+    })
   }
 
   register(email: string, password: string, confirmPassword: string): Observable<any> {
@@ -49,29 +61,6 @@ export class AuthService {
     formData.append('confirmPassword', confirmPassword);
     formData.append('password', password);
     return this.http.post(environment.apiBaseUrl + '/account/register', formData);
-  }
-
-  getUser(): Observable<any> {
-    return new Observable(observer => {
-      if (environment.noBackend) {
-        observer.next(mockData.user);
-        observer.complete();
-      } else {
-        this.http.get(environment.apiBaseUrl + '/users/current')
-          .pipe(tap({
-            next: (data: any) => {
-              this.cacheService.setUser(data);
-              observer.next(data);
-              observer.complete();
-            },
-            error: (err) => {
-              observer.error(err);
-            }
-          }));
-      }
-
-
-    });
   }
 
   initXsrfToken(): Observable<any> {
@@ -94,23 +83,27 @@ export class AuthService {
     }
   }
 
-  logout(): Observable<any> {
-    return this.http.post(environment.apiBaseUrl + '/account/logout', null).pipe(tap({
-      next: (data: any) => {
-        // store the result into local storage
-        this.cacheService.remove(this.authStorageKey);
-        this.cacheService.setXsrfToken(null);
-        return data;
-      },
-      error: (err) => {
-        this.cacheService.remove(this.authStorageKey);
-        this.cacheService.setXsrfToken(null);
-        return err;
-      }
-    }));
+  logout(): Observable<boolean> {
+    // const promise = new Promise<boolean>((resolve, reject) => {
+    //   this.authenticator.signOut();
+    //   setTimeout(() => {
+    //     this.router.navigate(['/login'])
+    //       .then((result) => {
+    //       resolve(result);
+    //     }).catch((err) => {
+    //       reject(err);
+    //     });
+    //   }, 1000);
+    // })
+    return from(Promise.resolve(true));
   }
 
   resendVerification(email: string) {
     return this.http.post(environment.apiBaseUrl + '/account/send_verification_email', { email });
+  }
+
+  loginObs(email: string, password: string) {
+    const result = this.login(email, password);
+    return from(result);
   }
 }

@@ -1,16 +1,21 @@
-@if(showHeaderFooter()) {
-  <app-header></app-header>
-}
 @if(guardedRoute) {
-  <amplify-authenticator>
+  <amplify-authenticator [services]="services">
     <ng-template amplifySlot="authenticated">
+      @if(showHeaderFooter()) {
+        <app-header></app-header>
+      }
       <router-outlet (activate)="verifyHeader($event)" />
+      @if(showHeaderFooter()) {
+        <app-footer></app-footer>
+      }
     </ng-template>
   </amplify-authenticator>
 } @else {
+  @if(showHeaderFooter()) {
+    <app-header></app-header>
+  }
   <router-outlet (activate)="verifyHeader($event)" />
-}
-
-@if(showHeaderFooter()) {
-  <app-footer></app-footer>
+  @if(showHeaderFooter()) {
+    <app-footer></app-footer>
+  }
 }
