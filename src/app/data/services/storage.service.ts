@@ -86,6 +86,7 @@ export class StorageService {
       return;
     }
     const dto: IUser = {
+      id: user.id,
       userName: user.userName,
       email: user.email,
       phoneNumber: user.phoneNumber

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { getUrl } from 'aws-amplify/storage';
 
 export class Utils {
 
@@ -62,6 +63,11 @@ export class Utils {
 
   static isValidEmail(email: string) {
     return EmailRegx.test(email);
+  }
+
+  static async getLink(path: string) {
+    const { url: { href } } = await getUrl({ path });
+    return href;
   }
 
 }

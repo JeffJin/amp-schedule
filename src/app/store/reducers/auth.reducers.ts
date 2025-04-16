@@ -11,15 +11,20 @@ export const initialState: AuthState = {
 
 export const authReducer = createReducer(
   initialState,
-  on(AuthApiActions.loginSuccess, (state, { user }) =>
-    ({ ...state, user })
+  on(AuthApiActions.loginSuccess, (state, { user }) => {
+      console.log('authReducer::AuthApiActions.loginSuccess');
+      return { ...state, user };
+    }
   ),
-  on(AuthApiActions.logoutSuccess, (state, { }) =>
-    ({ ...state, user: null, error: '' })
+  on(AuthApiActions.logoutSuccess, (state, {}) => {
+      console.log('authReducer::AuthApiActions.logoutSuccess');
+      return { ...state, user: null, error: '' };
+    }
   ),
-  // TODO login failure error
-  on(AuthApiActions.logoutFailure, (state, { }) =>
-    ({ ...state, user: null, error: '' })
+  on(AuthApiActions.logoutFailure, (state, {}) => {
+      console.log('authReducer::AuthApiActions.logoutFailure');
+      return { ...state, user: null, error: '' };
+    }
   ),
 );
 

@@ -2,12 +2,12 @@
   @if(video().fileType == VideoType.Video) {
     <video class="h-full w-full rounded-lg" controls>
       <source
-        src="{{video().cloudUrl}}"
+        src="{{video().url}}"
         type="video/mp4"
       />
       Your browser does not support the video tag.
     </video>
   } @else {
-    <iframe class="aspect-video md:aspect-square" src="{{video().cloudUrl}}" frameborder="0" allowfullscreen></iframe>
+    <iframe class="aspect-video md:aspect-square" src="{{video().url}}" frameborder="0" allowfullscreen></iframe>
   }
 </div>

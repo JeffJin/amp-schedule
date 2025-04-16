@@ -52,11 +52,12 @@ export const assetsReducer = createImmerReducer(
     if (index !== -1) {
       state.images[index].description = image.description;
       state.images[index].title = image.title;
-      state.images[index].category = image.category;
-      state.images[index].tags = image.tags;
-      state.images[index].updatedBy = image.updatedBy;
-      state.images[index].cloudUrl = image.cloudUrl;
-      state.images[index].updatedOn = new Date();
+      state.images[index].url = image.url;
+      state.images[index].fileType = image.fileType;
+      state.images[index].fileSize = image.fileSize;
+      state.images[index].width = image.width;
+      state.images[index].height = image.height;
+      state.images[index].privacySetting = image.privacySetting;
     }
   }),
   immerOn(ImageActions.removeImageSuccess, (state, { id }) => {

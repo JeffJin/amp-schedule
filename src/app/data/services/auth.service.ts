@@ -33,77 +33,28 @@ export class AuthService {
     }));
   }
 
-  login(username: string, password: string): Promise<SignInOutput> {
-    console.log('handleSignIn', username, password);
-    return new Promise((resolve, reject) => {
-      signIn({
-        username,
-        password,
-      }).then(result => {
-        this.store.dispatch(AuthApiActions.loginSuccess({ user: { userName: username, email: username, token: '', phoneNumber: '' }}));
-        resolve(result);
-      }).catch((error) => {
-        this.store.dispatch(AuthApiActions.logoutFailure({ error }));
-        reject(error);
-      })
-    })
-  }
-
-  register(email: string, password: string, confirmPassword: string): Observable<any> {
-    if (password !== confirmPassword) {
-      return new Observable(obs => {
-        obs.next({ message: 'Passwords do not match', code: 'PasswordsNotMatch' });
-        obs.complete();
-      });
-    }
-    const formData: FormData = new FormData();
-    formData.append('email', email);
-    formData.append('confirmPassword', confirmPassword);
-    formData.append('password', password);
-    return this.http.post(environment.apiBaseUrl + '/account/register', formData);
-  }
-
-  initXsrfToken(): Observable<any> {
-    const token = this.cacheService.getXsrfToken();
-    if (token && token.tokenName) {
-      return new Observable((obs) => {
-        obs.next(token);
-        obs.complete();
-      });
-    } else {
-      return this.http.get(environment.apiBaseUrl + '/common/xsrf').pipe(tap({
-        next: (data: any) => {
-          // store the result into local storage
-          this.cacheService.setXsrfToken(data);
-        },
-        error: (err) => {
-          this.cacheService.setXsrfToken(null);
+  async login(email: string, password: string): Promise<SignInOutput> {
+    console.log('AuthService.login', email, password);
+    const signInResult = await signIn({
+      username: email,
+      password,
+    });
+    const { username, userId, signInDetails } = await getCurrentUser();
+    console.log('AuthService.login', signInResult);
+    if (signInResult.isSignedIn) {
+      this.store.dispatch(AuthApiActions.loginSuccessRedirect({
+        user: {
+          id: userId,
+          userName: username,
+          email: signInDetails?.loginId,
+          authType: signInDetails?.authFlowType,
+          phoneNumber: ''
         }
       }));
+      return Promise.resolve(signInResult);
+    } else {
+      this.store.dispatch(AuthApiActions.logoutFailureRedirect());
+      return Promise.reject(signInResult);
     }
-  }
-
-  logout(): Observable<boolean> {
-    // const promise = new Promise<boolean>((resolve, reject) => {
-    //   this.authenticator.signOut();
-    //   setTimeout(() => {
-    //     this.router.navigate(['/login'])
-    //       .then((result) => {
-    //       resolve(result);
-    //     }).catch((err) => {
-    //       reject(err);
-    //     });
-    //   }, 1000);
-    // })
-    return from(Promise.resolve(true));
-  }
-
-  resendVerification(email: string) {
-    return this.http.post(environment.apiBaseUrl + '/account/send_verification_email', { email });
-  }
-
-  loginObs(email: string, password: string) {
-    const result = this.login(email, password);
-    return from(result);
   }
 }

@@ -18,7 +18,7 @@
       <a routerLink="latest" class="text-sm/6 font-semibold text-gray-900">Latest</a>
       <a routerLink="about" class="text-sm/6 font-semibold text-gray-900">Company</a>
       @if(isLoggedIn()) {
-        <a href="javascript:void(0)" (click)="logout()" class="text-sm/6 font-semibold text-gray-900">Log Out <span aria-hidden="true">&rarr;</span></a>
+        <button (click)="logout()" class="text-sm/6 font-semibold text-gray-900">Log Out <span aria-hidden="true">&rarr;</span></button>
       } @else {
         <a routerLink="login" class="text-sm/6 font-semibold text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
       }
@@ -56,17 +56,17 @@
                 <a routerLink="dashboard"
                    class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Dashboard</a>
               } @else {
-                <a routerLink="register"
+                <a routerLink="login"
                    class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Register</a>
               }
 
             </div>
             <div class="py-6">
               @if(isLoggedIn()) {
-                <a href="javascript:void(0)" (click)="logout()"
+                <button (click)="logout()"
                    class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
                   Log Out
-                </a>
+                </button>
               } @else {
                 <a routerLink="login" (click)="isOpen.set(false)"
                    class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">

@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AuthApiActions } from '../../store/actions/auth.actions';
 import { DashboardActions } from '../../store/actions/dashboard-actions';
 import { selectUser } from '../../store/app.selectors';
+import { AuthenticatorService } from '@aws-amplify/ui-angular';
 
 @Component({
   selector: 'app-dashboard-toolbar',
@@ -41,7 +42,7 @@ export class DashboardToolbarComponent {
 
   protected user;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private authenticator: AuthenticatorService) {
     this.user = this.store.selectSignal(selectUser);
 
   }
@@ -68,7 +69,8 @@ export class DashboardToolbarComponent {
   }
 
   logout() {
-    this.store.dispatch(AuthApiActions.logout());
+    this.authenticator.signOut();
+    this.store.dispatch(AuthApiActions.logoutSuccessRedirect());
   }
 
   showSideMenu() {

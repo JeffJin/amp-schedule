@@ -13,7 +13,7 @@ export const selectUser = createSelector(
 
 export const selectIsLoggedIn = createSelector(
   selectAuth,
-  auth => auth.user !== null && !!auth.user.token && auth.user.token.length > 0,
+  auth => auth.user !== null && !!auth.user.id && !!auth.user.userName,
 );
 
 export const selectAssets = createFeatureSelector<AssetState>(assetsKey);

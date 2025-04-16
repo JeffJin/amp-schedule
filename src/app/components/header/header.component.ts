@@ -7,6 +7,7 @@ import { filter, Subscription, tap } from 'rxjs';
 import { AuthenticatorService } from '@aws-amplify/ui-angular';
 import { Store } from '@ngrx/store';
 import { AuthApiActions } from '../../store/actions/auth.actions';
+import { selectIsLoggedIn } from '../../store/app.selectors';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,7 @@ import { AuthApiActions } from '../../store/actions/auth.actions';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  isLoggedIn = signal(true);
+  isLoggedIn;
   isOpen = signal<boolean>(false);
   private navigationEnd$;
   private unsubscribeNavigationEnd: Subscription | null = null;
@@ -27,12 +28,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       filter(event => event instanceof NavigationEnd),
       tap(() => (this.isOpen.set(false)))
     );
-    // this.isLoggedIn = this.store.selectSignal(selectIsLoggedIn);
+    this.isLoggedIn = this.store.selectSignal(selectIsLoggedIn);
   }
 
   ngOnInit() {
-    this. unsubscribeNavigationEnd = this.navigationEnd$.subscribe();
-    // this.isLoggedIn.set(this.authenticator.authStatus === 'authenticated');
+    this.unsubscribeNavigationEnd = this.navigationEnd$.subscribe();
   }
 
   ngOnDestroy() {
@@ -43,6 +43,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authenticator.signOut();
-    this.store.dispatch(AuthApiActions.logoutSuccess());
+    this.store.dispatch(AuthApiActions.logoutSuccessRedirect());
   }
 }

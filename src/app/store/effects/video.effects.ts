@@ -18,8 +18,6 @@ export class VideoEffects {
         .pipe(
           map(videos => {
             const results = videos.map((v: IVideo) => {
-              v.checked = false;
-              v.assetType = 'Video';
               return v;
             });
             return VideoActions.loadVideosSuccess({ videos: results });

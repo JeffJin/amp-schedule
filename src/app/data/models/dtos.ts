@@ -1,26 +1,36 @@
-export interface IAudio extends IEntity {
-  encodedFilePath: string;
-  cloudUrl: string;
-  duration: number;
-  category: string;
-  type: string;
+import { a } from '@aws-amplify/backend';
+
+export interface ITask extends IEntity {
   title: string;
   description: string;
-  tags: string;
+  dueDate: Date;
+  status: string;
+  notes: string;
+}
+
+export interface IAudio extends IEntity {
+  title: string,
+  description: string,
+  duration: number,
+  url: string,
+  fileSize: string,
+  fileType: string,
+  privacySetting: string,
 }
 
 export interface IDevice extends IEntity {
-  serialNumber: string;
-  deviceGroupName: string;
-  organizationName: string;
-  assetTag: string;
-  deviceVersion: number;
-  appVersion: number;
-  locationId: string;
-  activatedOn?: Date;
-  // lastStatus?: DeviceStatusDto;
-  isOnline?: boolean;
-  // licenses?: Array<LicenseDto>;
+  serialNumber: string,
+  title: string,
+  description: string,
+  deviceGroup: string,
+  organization: string,
+  assetTag: string,
+  deviceVersion: string,
+  appVersion: string,
+  locationId: string,
+  activatedOn: Date,
+  isOnline: boolean,
+  playlists?: IPlaylist[],
 }
 
 export interface ILicense extends IEntity {
@@ -42,35 +52,14 @@ export interface IGroup extends IEntity {
 }
 
 export interface IPlaylist extends IEntity {
-  name: string;
-  startDate: Date;
-  endDate: Date;
-  // daily start and end time in minutes, offset from midnight
-  startTime: number;
-  endTime: number;
-  deviceGroups?: IGroup[];
-  subPlaylists?: ISubPlaylist[];
-}
-
-
-export interface ISubPlaylist extends IEntity {
-  playlistId: string;
-  positionX: number; // top left corner in a screen
-  positionY: number; // top left corner in a screen
-  width: number; // 0 to 100 percentage
-  height: number; // 0 to 100 percentage
-  playlistItems?: IPlaylistItem[];
-}
-
-export interface IPlaylistItem extends IEntity {
-  index: number;
-  subPlaylistId: string;
-  mediaAssetId: string; // media asset id
-  assetDiscriminator: string; // Video, Audio or Image
-  duration: number; // for how long the asset will be displayed since the media start time
-  media: any;
-
-  cacheLocation: string;
+  title: string,
+  description: string,
+  videos: IVideo[],
+  startTime: Date,
+  endTime: Date,
+  privacySetting: string,
+  devices: IDevice[],
+  // commercials: ICommercial[],
 }
 
 export interface ICustomer extends IEntity {
@@ -83,31 +72,16 @@ export interface ILocation extends IEntity {
   timezoneOffset: number;
 }
 
-export interface IPlaylistGroup extends IEntity {
-  playlistId: string;
-  groupId: string;
-}
-
-export interface VisibleImage {
-  id: string,
-  url: string,
-  width: number,
-  height: number,
-  description?: string;
-  title?: string;
-}
-
 export interface IImage extends IEntity {
-  cloudUrl: string;
+  path: string;
+  url: string;
   fileSize?: number;
-  category?: string;
-  type?: string;
+  fileType?: string;
   title: string;
   description?: string;
-  tags?: string;
   width?: number;
   height?: number;
-  assetType?: string;
+  privacySetting?: string;
 }
 
 export const VideoType = {
@@ -116,38 +90,36 @@ export const VideoType = {
 }
 
 export interface IVideo extends IEntity {
-  cloudUrl: string;
-  encodedFilePath?: string;
-  progressiveUrl?: string;
-  hlsUrl?: string;
-  duration?: number;
-  sourceId?: string;
-  fileType: string;
-  category?: string;
-  type?: string;
-  title?: string;
+  path: string;
+  url: string;
+  fileSize?: number;
+  fileType?: string;
+  title: string;
   description?: string;
+  privacySetting?: string;
+  duration?: number;
+  type?: string;
   tags?: string;
   mainThumbnail?: string;
-  thumbnails?: string[];
-  checked?: boolean;
-  assetType?: string;
+  thumbnailUrls?: string[];
+  playlist?: IPlaylist;
 }
 
 export interface IUser{
+  id: string;
   userName: string;
-  email: string;
-  phoneNumber: string;
+  email?: string;
+  phoneNumber?: string;
   profileLogo?: string;
-  token?: string;
+  authType?: string;
 }
 
 export interface IEntity{
   id?: string;
-  createdOn?: Date | null;
-  updatedOn?: Date | null;
-  createdBy?: string;
-  updatedBy?: string;
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
+  owner?: string;
+  eTag?: string | undefined;
 }
 
 export interface ITimeZone {

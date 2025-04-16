@@ -17,7 +17,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { Store } from '@ngrx/store';
 import { filter, Subscription } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import { signIn, SignInInput } from 'aws-amplify/auth';
+import { getCurrentUser, signIn, SignInInput } from 'aws-amplify/auth';
 import { AuthApiActions } from './store/actions/auth.actions';
 import { AuthService } from './data/services/auth.service';
 
@@ -75,13 +75,19 @@ export class AppComponent implements OnInit, OnDestroy {
       mergeMap(route => route.data)
     ).subscribe((data: any) => {
       // Access the route data here
-      console.log(data);
       this.guardedRoute = data?.guarded || false;
     });
+
+    try {
+      //check login status with getCurrentUser api
+      const user = await getCurrentUser();
+      console.log('AppComponent.user', user);
+    } catch (error) {
+      await this.router.navigate(['/login']);
+    }
   }
 
   verifyHeader(component: any) {
-    console.log(component);
     if(this.router.url.startsWith('/dashboard')) {
       this.showHeaderFooter.set(false);
     } else {
