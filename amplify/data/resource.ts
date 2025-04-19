@@ -9,7 +9,7 @@ specifies that any user authenticated via an API key can "create", "read",
 const schema = a.schema({
   PrivacySetting: a.enum([
     'PRIVATE',
-    'FRIENDS_ONLY',
+    'ORGANIZATION_ONLY',
     'PUBLIC'
   ]),
   VideoSetting: a.enum([
@@ -46,6 +46,7 @@ const schema = a.schema({
   Video: a.model({
     title: a.string().required(),
     description: a.string(),
+    assetPath: a.string(),
     tags: a.hasMany('VideoTag', 'videoId'),
     youtubeUrl: a.url(),
     url: a.url().required(),
@@ -64,6 +65,7 @@ const schema = a.schema({
   Image: a.model({
     title: a.string().required(),
     description: a.string(),
+    assetPath: a.string(),
     url: a.url().required(),
     fileSize: a.integer(),
     width: a.integer(),
@@ -75,6 +77,7 @@ const schema = a.schema({
   Audio: a.model({
     title: a.string().required(),
     description: a.string(),
+    assetPath: a.string(),
     duration: a.integer(),
     url: a.url().required(),
     fileSize: a.integer(),

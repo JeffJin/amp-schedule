@@ -1,5 +1,5 @@
 <div [ngClass]="{'-full-screen': isFullScreen()}">
-  @if(video().fileType == VideoType.Video) {
+  @if(video().fileType?.endsWith('mp4')) {
     <video class="h-full w-full rounded-lg" controls>
       <source
         src="{{video().url}}"

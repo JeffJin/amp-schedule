@@ -2,7 +2,7 @@
   <app-image-info [imageId]="selectedId"></app-image-info>
 }
 <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-  @for (item of images(); track item.id) {
+  @for (item of images(); track item.url) {
     <li class="relative">
       <div (click)="selectImage(item.id!)"
            class="group overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">

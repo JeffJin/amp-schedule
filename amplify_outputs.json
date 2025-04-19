@@ -374,6 +374,13 @@
               "isRequired": false,
               "attributes": []
             },
+            "assetPath": {
+              "name": "assetPath",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
             "tags": {
               "name": "tags",
               "isArray": true,
@@ -589,6 +596,13 @@
               "isRequired": false,
               "attributes": []
             },
+            "assetPath": {
+              "name": "assetPath",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
             "url": {
               "name": "url",
               "isArray": false,
@@ -702,6 +716,13 @@
             },
             "description": {
               "name": "description",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "assetPath": {
+              "name": "assetPath",
               "isArray": false,
               "type": "String",
               "isRequired": false,
@@ -1412,7 +1433,7 @@
           "name": "PrivacySetting",
           "values": [
             "PRIVATE",
-            "FRIENDS_ONLY",
+            "ORGANIZATION_ONLY",
             "PUBLIC"
           ]
         },

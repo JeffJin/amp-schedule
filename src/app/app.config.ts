@@ -1,4 +1,8 @@
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors
+} from '@angular/common/http';
 import {
   ApplicationConfig,
   provideAppInitializer,
@@ -6,12 +10,20 @@ import {
   isDevMode
 } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withViewTransitions
+} from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { routerReducer } from '@ngrx/router-store';
 import { provideState, provideStore } from '@ngrx/store';
 import { routes } from './app.routes';
-import { authInterceptor, cachingInterceptor, loggingInterceptor } from './data/services/http.interceptors';
+import {
+  authInterceptor,
+  cachingInterceptor,
+  loggingInterceptor
+} from './data/services/http.interceptors';
 import { AUTH_SAVED_KEYS, AUTH_STORAGE_KEY } from './store/app.tokens';
 import { AuthEffects } from './store/effects/auth.effects';
 import { ImageEffects } from './store/effects/image.effects';

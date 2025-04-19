@@ -32,10 +32,9 @@ export class ImageEffects {
     this.actions$.pipe(
       ofType(ImageActions.loadImageDetails),
       mergeMap((action: { imageId: string }) =>
-        this.imageService.getImage(action.imageId)
+        this.imageService.getImageDetails(action.imageId)
           .pipe(
             map(image => {
-              image.assetType = 'Image';
               return ImageActions.loadImageDetailsSuccess({ image });
             }),
             catchError((error) => of(ImageActions.loadImageDetailsFailure({ error })))

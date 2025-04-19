@@ -24,15 +24,6 @@ export class AuthService {
               private cacheService: StorageService) {
   }
 
-  isEmailTaken(email: string): Observable<boolean> {
-    return this.http.get(
-      `${environment.apiBaseUrl}/users/validate_email?email=${email}`,
-      { observe: 'response' } //full response data
-    ).pipe(map((response: any) => {
-      return response['duplicatedEmail'] === true;
-    }));
-  }
-
   async login(email: string, password: string): Promise<SignInOutput> {
     console.log('AuthService.login', email, password);
     const signInResult = await signIn({

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { getUrl } from 'aws-amplify/storage';
+import { environment } from '../../../environments/environment';
 
 export class Utils {
 
@@ -36,7 +37,7 @@ export class Utils {
     return false;
   }
 
-  static  isAudio(filename: string) {
+  static isAudio(filename: string) {
     const ext = this.getExtension(filename);
     switch (ext.toLowerCase()) {
       case 'mp3':
@@ -61,6 +62,19 @@ export class Utils {
     return false;
   }
 
+  static getFileType(filename: string) {
+    if (this.isImage(filename)) {
+      return 'IMAGE';
+    }
+    if (this.isVideo(filename)) {
+      return 'VIDEO';
+    }
+    if (this.isAudio(filename)) {
+      return 'AUDIO';
+    }
+    return 'OTHER';
+  }
+
   static isValidEmail(email: string) {
     return EmailRegx.test(email);
   }
@@ -68,6 +82,9 @@ export class Utils {
   static async getLink(path: string) {
     const { url: { href } } = await getUrl({ path });
     return href;
+  }
+  static getStaticLink(path: string) {
+    return `https://${environment.s3bucket}.s3.amazonaws.com/${path}`
   }
 
 }

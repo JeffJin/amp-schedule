@@ -41,6 +41,10 @@ export const dashboardRoutes: Routes = [
         loadComponent: () => import('./documents/documents.component').then(c => c.DocumentsComponent),
       },
       {
+        path: 'upload',
+        loadComponent: () => import('./upload/upload.component').then(c => c.UploadComponent),
+      },
+      {
         path: 'history',
         loadComponent: () => import('./history/history.component').then(c => c.HistoryComponent),
       },

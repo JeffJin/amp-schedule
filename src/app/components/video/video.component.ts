@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, input, output, signal } from '@angular/core';
-import { IVideo, VideoType } from '../../data/models/dtos';
+import { IVideo } from '../../data/models/dtos';
 
 @Component({
   selector: 'app-video',
@@ -15,7 +15,6 @@ import { IVideo, VideoType } from '../../data/models/dtos';
   },
 })
 export class VideoComponent {
-  protected readonly VideoType = VideoType;
   protected isFullScreen = signal(false);
 
   video = input.required<IVideo>();

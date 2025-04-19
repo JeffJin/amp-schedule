@@ -6,10 +6,12 @@ import { AuthApiActions } from '../../store/actions/auth.actions';
 import { DashboardActions } from '../../store/actions/dashboard-actions';
 import { selectUser } from '../../store/app.selectors';
 import { AuthenticatorService } from '@aws-amplify/ui-angular';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-toolbar',
   imports: [
+    RouterLink
   ],
   animations: [
     trigger('openCloseProfile', [

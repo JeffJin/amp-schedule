@@ -1,20 +1,26 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { HttpClient, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
-import { IImage } from '../models/dtos';
+import { IImage, IImageEntity } from '../models/dtos';
 import { environment } from '../../../environments/environment';
 import { getImageInfo } from '../utils/img-util';
 import { mockData } from './mock-data';
 import { AwsService } from './aws.service';
 import { getUrl, list } from 'aws-amplify/storage';
 import { Utils } from './utils';
+import { V6Client } from '@aws-amplify/api-graphql';
+import type { Schema } from '../../../../amplify/data/resource';
+import { DefaultCommonClientOptions } from '@aws-amplify/api-graphql/internals';
+import DtoHelper from '../models/dto-heper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImageService {
+  private client: V6Client<Schema, DefaultCommonClientOptions>;
 
-  constructor(private httpClient: HttpClient, private awsService: AwsService) {
+  constructor(private awsService: AwsService) {
+    this.client = this.awsService.awsClient;
 
   }
 
@@ -34,9 +40,9 @@ export class ImageService {
         fileType: '',
         width: 0,
         height: 0,
-        path: item.path,
+        assetPath: item.path,
         eTag: item.eTag,
-        privacySetting: 'public',
+        privacySetting: 'PRIVATE',
       });
     }
     return results;
@@ -47,20 +53,41 @@ export class ImageService {
     return from(result);
   }
 
-  getImage(id: string): Observable<any> {
-    return this.httpClient.get(`${environment.apiBaseUrl}/images/${id}`);
+  async addImage(image: IImage): Promise<IImage> {
+    const entity = DtoHelper.convertToImageEntity(image);
+    const { data, errors } = await this.client.models.Image.create(entity);
+    if (errors) {
+      console.error('image failed to create', errors);
+      throw errors;
+    } else {
+      return DtoHelper.convertToImageModel(data as IImageEntity);
+    }
   }
 
-  updateImage(id: string, imageDto: IImage): Observable<any> {
-    return this.httpClient.put(`${environment.apiBaseUrl}/images/${id}`, imageDto);
+  async updateImage(image: IImage): Promise<IImage> {
+    const entity = DtoHelper.convertToImageEntity(image);
+    const { data, errors } = await this.client.models.Image.update({ ...entity, id: image.id! });
+    if (errors) {
+      console.error('image failed to update', errors);
+      throw errors;
+    } else {
+      return DtoHelper.convertToImageModel(data as IImageEntity);
+    }
   }
 
-  deleteImage(id: string): Observable<any> {
-    return this.httpClient.delete(`${environment.apiBaseUrl}/images/${id}`);
+  async deleteImage(id: string): Promise<boolean> {
+    const { data, errors } = await this.client.models.Image.delete({ id });
+    if (errors) {
+      console.error('image failed to update', errors);
+      throw errors;
+    } else {
+      console.log('image successfully deleted', data);
+      return true;
+    }
   }
 
   updateImageSize(image: IImage): Observable<IImage> {
-    const imgPromise: Promise<IImage> = getImageInfo(image.url)
+    const imgPromise: Promise<IImage> = getImageInfo(image.url!)
       .then((imgInfo) => {
           if (imgInfo == null) {
             return {
@@ -84,5 +111,17 @@ export class ImageService {
         }
       );
     return from(imgPromise);
+  }
+
+  async getImageDetailsPromise(imageId: string): Promise<IImage> {
+    const { data: image, errors } = await this.client.models.Image.get({
+      id: imageId,
+    });
+    return image as IImage;
+  }
+
+  getImageDetails(imageId: string): Observable<IImage> {
+    const promise = this.getImageDetailsPromise(imageId);
+    return from(promise);
   }
 }
