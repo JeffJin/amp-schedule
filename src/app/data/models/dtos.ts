@@ -35,7 +35,7 @@ export interface IDeviceEntity {
   locationId?: string,
   activatedOn?: Date,
   isOnline?: boolean,
-  playlists?: IPlaylist[],
+  playlists?: IPlaylistEntity[],
 }
 
 export interface ILicense extends IModel {
@@ -206,4 +206,20 @@ export interface ITimeZone {
   isdst: boolean,
   text: string,
   utc: string[]
+}
+
+export interface IVideoSettings {
+  youtubeUrl: string;
+  videoSetting: string;
+  duration: number;
+  tags?: string[];
+}
+
+export interface IImageSettings {
+  width: number;
+  height: number;
+}
+
+export interface IAudioSettings {
+  duration: number;
 }

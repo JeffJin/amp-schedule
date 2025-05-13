@@ -432,8 +432,8 @@
               "isRequired": false,
               "attributes": []
             },
-            "thumbnailUrls": {
-              "name": "thumbnailUrls",
+            "thumbnails": {
+              "name": "thumbnails",
               "isArray": true,
               "type": "AWSURL",
               "isRequired": false,

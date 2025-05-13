@@ -4,6 +4,10 @@ import { provideState } from '@ngrx/store';
 import { assetsKey, assetsReducer } from '../../store/reducers/assets.reducers';
 import { dashboardKey, dashboardReducer } from '../../store/reducers/dashboard.reducers';
 import { authGuard } from '../../guards/auth.guard';
+import { VideoSettingsComponent } from './upload/video-settings/video-settings.component';
+import { ImageSettingsComponent } from './upload/image-settings/image-settings.component';
+import { AudioSettingsComponent } from './upload/audio-settings/audio-settings.component';
+import { UploadComponent } from './upload/upload.component';
 
 export const dashboardRoutes: Routes = [
   {
@@ -42,7 +46,24 @@ export const dashboardRoutes: Routes = [
       },
       {
         path: 'upload',
-        loadComponent: () => import('./upload/upload.component').then(c => c.UploadComponent),
+        component: UploadComponent,
+        children: [
+          {
+            path: 'video',
+            component: VideoSettingsComponent,
+            // outlet: 'settings'
+          },
+          {
+            path: 'image',
+            component: ImageSettingsComponent,
+            // outlet: 'settings'
+          },
+          {
+            path: 'audio',
+            component: AudioSettingsComponent,
+            // outlet: 'settings'
+          }
+        ]
       },
       {
         path: 'history',

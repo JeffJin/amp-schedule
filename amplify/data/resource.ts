@@ -53,7 +53,7 @@ const schema = a.schema({
     duration: a.integer(),
     fileSize: a.integer(),
     fileType: a.string(),
-    thumbnailUrls: a.url().array(),
+    thumbnails: a.url().array(),
     playlistId: a.id(),
     playlist: a.belongsTo('Playlist', 'playlistId'),
     privacySetting: a.ref('PrivacySetting'),

@@ -33,15 +33,17 @@ export class AuthService {
     const { username, userId, signInDetails } = await getCurrentUser();
     console.log('AuthService.login', signInResult);
     if (signInResult.isSignedIn) {
-      this.store.dispatch(AuthApiActions.loginSuccessRedirect({
-        user: {
-          id: userId,
-          userName: username,
-          email: signInDetails?.loginId,
-          authType: signInDetails?.authFlowType,
-          phoneNumber: ''
-        }
-      }));
+      setTimeout(() => {
+        this.store.dispatch(AuthApiActions.loginSuccessRedirect({
+          user: {
+            id: userId,
+            userName: username,
+            email: signInDetails?.loginId,
+            authType: signInDetails?.authFlowType,
+            phoneNumber: ''
+          }
+        }));
+      }, 500);
       return Promise.resolve(signInResult);
     } else {
       this.store.dispatch(AuthApiActions.logoutFailureRedirect());
