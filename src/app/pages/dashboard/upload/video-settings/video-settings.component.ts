@@ -13,7 +13,7 @@ import { JsonPipe } from '@angular/common';
   styleUrl: './video-settings.component.css'
 })
 export class VideoSettingsComponent {
-  settings: IVideoSettings = {
+  @Input() settings: IVideoSettings = {
     duration: 0,
     videoSetting: 'Movie',
     youtubeUrl: '',

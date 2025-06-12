@@ -19,9 +19,9 @@ export class AssetService {
 
   }
 
-  async uploadAsset(file: File, payload: any): Promise<IImage | IVideo | IAudio | null> {
+  async uploadAsset(file: File, payload: any): Promise<IImage | IVideo | IAudio> {
     try {
-      const { size, path, eTag} = await this.fileService.uploadFile(file);
+      const { size, path, eTag } = await this.fileService.uploadFile(file);
       const props = await getProperties({ path });
       console.log(size, path, eTag, props);
       const entity = {
@@ -40,15 +40,15 @@ export class AssetService {
           return await this.processImage(entity as IImage);
         case 'VIDEO':
           return await this.processVideo(entity as IVideo);
-        // case 'mp3':
+        case 'AUDIO':
         //   return await this.audioService.addAudio(entity as IVideo);
         default:
           return entity as IAsset;
       }
     } catch (error) {
       console.error(error);
+      throw error;
     }
-    return null;
   }
 
   async processImage(entity: IImage): Promise<IImage> {

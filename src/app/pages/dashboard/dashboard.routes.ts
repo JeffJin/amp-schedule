@@ -47,23 +47,6 @@ export const dashboardRoutes: Routes = [
       {
         path: 'upload',
         component: UploadComponent,
-        children: [
-          {
-            path: 'video',
-            component: VideoSettingsComponent,
-            // outlet: 'settings'
-          },
-          {
-            path: 'image',
-            component: ImageSettingsComponent,
-            // outlet: 'settings'
-          },
-          {
-            path: 'audio',
-            component: AudioSettingsComponent,
-            // outlet: 'settings'
-          }
-        ]
       },
       {
         path: 'history',

@@ -10,49 +10,4 @@ export class GroupService {
 
   constructor(private httpClient: HttpClient) { }
 
-  addGroup(dto: any): Observable<any> {
-    return this.httpClient.post(`${environment.apiBaseUrl}/groups/`, dto);
-  }
-
-  loadGroups(): Observable<any> {
-    if (environment.noBackend) {
-      return new Observable(observer => {
-        observer.next(mockData.groups);
-        observer.complete();
-      });
-    }
-    return this.httpClient.get(`${environment.apiBaseUrl}/groups/`);
-  }
-
-  loadGroupsWithDevices(num: number): Observable<any> {
-    if (environment.noBackend) {
-      return new Observable(observer => {
-        observer.next(mockData.groups);
-        observer.complete();
-      });
-    }
-    return this.httpClient.get(`${environment.apiBaseUrl}/groups/devices/${num}`);
-  }
-
-  searchGroups(keywords: string): Observable<any> {
-    return this.httpClient.get(`${environment.apiBaseUrl}/groups/search?keywords=${keywords}`);
-  }
-
-  getGroup(id: string): Observable<any> {
-    if (environment.noBackend) {
-      return new Observable(observer => {
-        observer.next(mockData.groups.find(item => item.id === id ));
-        observer.complete();
-      });
-    }
-    return this.httpClient.get(`${environment.apiBaseUrl}/groups/${id}`);
-  }
-
-  updateGroup(id: string, dto: IGroup): Observable<any> {
-    return this.httpClient.put(`${environment.apiBaseUrl}/groups/${id}`, dto);
-  }
-
-  deleteGroup(id: string): Observable<any> {
-    return this.httpClient.delete(`${environment.apiBaseUrl}/groups/${id}`);
-  }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { IImage, IVideo, IVideoEntity } from '../models/dtos';
+import { IImage, IVideo, IVideoEntity, IVideoSettings } from '../models/dtos';
 import { V6Client } from '@aws-amplify/api-graphql';
 import type { Schema } from '../../../../amplify/data/resource';
 import { DefaultCommonClientOptions } from '@aws-amplify/api-graphql/internals';
@@ -53,7 +53,8 @@ export class VideoService {
       console.error('video failed to create', errors);
       throw errors;
     } else {
-      return DtoHelper.convertToVideoModel(data as IVideoEntity);
+      //Warning: check type safety
+      return DtoHelper.convertToVideoModel(data as unknown as IVideoEntity);
     }
   }
 
@@ -65,7 +66,7 @@ export class VideoService {
       return Promise.reject(errors);
     } else {
       console.log('video updated successfully', data);
-      return DtoHelper.convertToVideoModel(data as IVideoEntity);
+      return DtoHelper.convertToVideoModel(data as unknown as IVideoEntity);
     }
   }
 
@@ -89,8 +90,8 @@ export class VideoService {
     return video as unknown as IVideo;
   }
 
-  getVideoDetails(imageId: string): Observable<IImage> {
-    const promise = this.getVideoDetailsPromise(imageId);
+  getVideoDetails(videoId: string): Observable<IVideo> {
+    const promise = this.getVideoDetailsPromise(videoId);
     return from(promise);
   }
 }

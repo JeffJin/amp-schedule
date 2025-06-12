@@ -13,6 +13,8 @@ import type { Schema } from '../../../../amplify/data/resource';
 import { DefaultCommonClientOptions } from '@aws-amplify/api-graphql/internals';
 import DtoHelper from '../models/dto-heper';
 
+//DynamoDB operations for image entities
+
 @Injectable({
   providedIn: 'root',
 })

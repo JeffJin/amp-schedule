@@ -1,15 +1,8 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { from, Observable, tap } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { AUTH_STORAGE_KEY } from '../../store/app.tokens';
-import { IUser } from '../models/dtos';
 import { StorageService } from './storage.service';
-import { Router } from '@angular/router';
-import { mockData } from './mock-data';
-import { AuthenticatorService } from '@aws-amplify/ui-angular';
-import { getCurrentUser, signIn, SignInInput, SignInOutput } from 'aws-amplify/auth';
+import { getCurrentUser, signIn, SignInOutput } from 'aws-amplify/auth';
 import { AuthApiActions } from '../../store/actions/auth.actions';
 import { Store } from '@ngrx/store';
 

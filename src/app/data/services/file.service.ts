@@ -6,6 +6,8 @@ import { environment } from '../../../environments/environment';
 import { copy, CopyWithPathOutput, remove, RemoveWithPathOutput, uploadData } from 'aws-amplify/storage';
 import { ItemWithPath } from '@aws-amplify/storage/src/providers/s3/types/outputs';
 
+//aws s3 storage operations for asset files
+
 @Injectable(
   {
     providedIn: 'root'

@@ -400,14 +400,14 @@
             "youtubeUrl": {
               "name": "youtubeUrl",
               "isArray": false,
-              "type": "AWSURL",
+              "type": "String",
               "isRequired": false,
               "attributes": []
             },
             "url": {
               "name": "url",
               "isArray": false,
-              "type": "AWSURL",
+              "type": "String",
               "isRequired": true,
               "attributes": []
             },
@@ -435,7 +435,7 @@
             "thumbnails": {
               "name": "thumbnails",
               "isArray": true,
-              "type": "AWSURL",
+              "type": "String",
               "isRequired": false,
               "attributes": [],
               "isArrayNullable": true
@@ -606,7 +606,7 @@
             "url": {
               "name": "url",
               "isArray": false,
-              "type": "AWSURL",
+              "type": "String",
               "isRequired": true,
               "attributes": []
             },
@@ -738,7 +738,7 @@
             "url": {
               "name": "url",
               "isArray": false,
-              "type": "AWSURL",
+              "type": "String",
               "isRequired": true,
               "attributes": []
             },

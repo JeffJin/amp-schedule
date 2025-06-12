@@ -143,13 +143,13 @@ export interface IAudio extends IAsset {
 }
 
 export interface IImage extends IAsset {
-  width?: number;
-  height?: number;
+  width: number | undefined;
+  height: number | undefined;
 }
 
 export interface IImageEntity extends IAssetEntity {
-  width?: number;
-  height?: number;
+  width: number | undefined;
+  height: number | undefined;
 }
 
 export interface ITag extends IModel {
@@ -169,6 +169,7 @@ export interface IVideoEntity extends IAssetEntity {
   videoSetting?: VideoSetting;
   mainThumbnail?: string;
   thumbnailUrls?: string[];
+  tags?: any[];
 }
 
 export interface IVideo extends IAsset {
@@ -222,4 +223,7 @@ export interface IImageSettings {
 
 export interface IAudioSettings {
   duration: number;
+}
+
+export interface IDocumentSettings {
 }
