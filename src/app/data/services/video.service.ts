@@ -8,6 +8,7 @@ import { AwsService } from './aws.service';
 import { list } from 'aws-amplify/storage';
 import { Utils } from './utils';
 import DtoHelper from '../models/dto-heper';
+import { AssetError, AssetErrorCodes } from '../errors/upload-asset-error';
 
 @Injectable({ providedIn: 'root' })
 export class VideoService {
@@ -51,7 +52,7 @@ export class VideoService {
     const { data, errors } = await this.client.models.Video.create(entity);
     if (errors) {
       console.error('video failed to create', errors);
-      throw errors;
+      throw new AssetError(AssetErrorCodes.AddVideoDbFailed, errors);
     } else {
       //Warning: check type safety
       return DtoHelper.convertToVideoModel(data as unknown as IVideoEntity);
@@ -63,7 +64,7 @@ export class VideoService {
     const { data, errors } = await this.client.models.Video.update({ ...entity, id: video.id! });
     if (errors) {
       console.error('video failed to update', errors);
-      return Promise.reject(errors);
+      throw new AssetError(AssetErrorCodes.UpdateVideoDbFailed, errors);
     } else {
       console.log('video updated successfully', data);
       return DtoHelper.convertToVideoModel(data as unknown as IVideoEntity);
@@ -75,7 +76,7 @@ export class VideoService {
     const { data, errors } = await this.client.models.Image.delete({ id });
     if (errors) {
       console.error('video failed to delete', errors);
-      throw errors;
+      throw new AssetError(AssetErrorCodes.DeleteVideoDbFailed, errors);
     } else {
       console.log('video successfully deleted', data);
       return true;

@@ -12,6 +12,7 @@ import { V6Client } from '@aws-amplify/api-graphql';
 import type { Schema } from '../../../../amplify/data/resource';
 import { DefaultCommonClientOptions } from '@aws-amplify/api-graphql/internals';
 import DtoHelper from '../models/dto-heper';
+import { AssetError, AssetErrorCodes } from '../errors/upload-asset-error';
 
 //DynamoDB operations for image entities
 
@@ -60,7 +61,7 @@ export class ImageService {
     const { data, errors } = await this.client.models.Image.create(entity);
     if (errors) {
       console.error('image failed to create', errors);
-      throw errors;
+      throw new AssetError(AssetErrorCodes.AddImageDbFailed   , errors);
     } else {
       return DtoHelper.convertToImageModel(data as IImageEntity);
     }
@@ -71,7 +72,7 @@ export class ImageService {
     const { data, errors } = await this.client.models.Image.update({ ...entity, id: image.id! });
     if (errors) {
       console.error('image failed to update', errors);
-      throw errors;
+      throw new AssetError(AssetErrorCodes.UpdateImageDbFailed, errors);
     } else {
       return DtoHelper.convertToImageModel(data as IImageEntity);
     }
@@ -81,7 +82,7 @@ export class ImageService {
     const { data, errors } = await this.client.models.Image.delete({ id });
     if (errors) {
       console.error('image failed to update', errors);
-      throw errors;
+      throw new AssetError(AssetErrorCodes.DeleteImageDbFailed, errors);
     } else {
       console.log('image successfully deleted', data);
       return true;

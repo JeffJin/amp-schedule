@@ -227,3 +227,5 @@ export interface IAudioSettings {
 
 export interface IDocumentSettings {
 }
+
+export type AssetType = 'IMAGE' | 'VIDEO' | 'AUDIO' | 'DOCUMENT';

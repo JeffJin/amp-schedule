@@ -5,6 +5,8 @@ import { catchError, last, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { copy, CopyWithPathOutput, remove, RemoveWithPathOutput, uploadData } from 'aws-amplify/storage';
 import { ItemWithPath } from '@aws-amplify/storage/src/providers/s3/types/outputs';
+import { AssetType } from '../models/dtos';
+import { AssetError, AssetErrorCodes } from '../errors/upload-asset-error';
 
 //aws s3 storage operations for asset files
 
@@ -40,7 +42,7 @@ export class FileService {
     throw 'Invalid file size';
   }
 
-  async copyFileFromMedia(assetPath: string, type: string): Promise<CopyWithPathOutput> {
+  async copyFileFromMedia(assetPath: string, type: AssetType): Promise<CopyWithPathOutput> {
     let path = '';
     switch (type) {
       case 'IMAGE':
@@ -59,7 +61,7 @@ export class FileService {
           path = '';
     }
     if(path === '') {
-      throw 'Invalid type';
+      throw new AssetError(AssetErrorCodes.InvalidFile);
     }
     const fileName = assetPath.split('/').pop();
     try {
@@ -73,7 +75,7 @@ export class FileService {
       });
     } catch (error) {
       console.error('Error', error);
-      throw error;
+      throw new AssetError(AssetErrorCodes.CopyFileFromMediaFailed, error);
     }
   }
 
@@ -82,7 +84,7 @@ export class FileService {
       return await remove({ path });
     } catch (error) {
       console.error('Error', error);
-      throw error;
+      throw new AssetError(AssetErrorCodes.DeleteFileFromS3Failed, error);
     }
   }
 }
